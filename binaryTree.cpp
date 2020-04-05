@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include <fstream>
 using namespace std;
 
 struct binSearchTreeNode
@@ -10,8 +12,11 @@ struct binSearchTreeNode
 class binSearchTree
 {
     binSearchTreeNode *rootNode;
+    
+
 
 public:
+    vector<int> dataSortedList;
     binSearchTree()
     {
         rootNode = NULL; //
@@ -21,8 +26,10 @@ public:
         return (rootNode == NULL);
     }
     void insert(int);
+    void makeSortedList();
     void displayBinTree();
     void printBinTree(binSearchTreeNode *);
+    vector<int> addSortedToFile(binSearchTreeNode *);
 };
 void binSearchTree::insert(int item)
 {
@@ -53,15 +60,47 @@ void binSearchTree::insert(int item)
 }
 void binSearchTree::displayBinTree()
 {
+    makeSortedList();
     printBinTree(rootNode);
 }
 void binSearchTree::printBinTree(binSearchTreeNode *ptr)
 {
-    if (ptr != NULL)
+
+    for (int index = 0; index < dataSortedList.size(); index++)
     {
-        printBinTree(ptr->left);
-        cout << "  " << ptr->data << " ";
-        printBinTree(ptr->right);
+        if (index == 0 && dataSortedList.size() != index)
+            cout << "[" << dataSortedList[index] << ", ";
+        else if (dataSortedList.size()-1 == index)
+            cout << dataSortedList[index] << "]\n";
+        else
+            cout << dataSortedList[index] << ", ";
+        
     }
 }
+void binSearchTree::makeSortedList()
+{
+    
+    ofstream sortedDataFile("sortedDataFile.txt");
 
+    dataSortedList = addSortedToFile(rootNode);
+    for (int index = 0; index < dataSortedList.size(); index++)
+    {
+        sortedDataFile << dataSortedList[index] << " ";
+    }
+        
+
+    sortedDataFile.close();
+}
+
+vector <int> binSearchTree::addSortedToFile(binSearchTreeNode *ptr)
+{
+    //vector <int> dataSortedList;
+    
+    if (ptr != NULL)
+    {
+        addSortedToFile(ptr->left);
+        dataSortedList.push_back(ptr->data);
+        addSortedToFile(ptr->right);
+    }
+    return dataSortedList;
+}
