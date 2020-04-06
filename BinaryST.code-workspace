@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.html": "html",
+			"iosfwd": "cpp",
+			"fstream": "cpp",
+			"locale": "cpp",
+			"*.tcc": "cpp",
+			"vector": "cpp",
+			"iostream": "cpp"
+		}
+	}
+}
